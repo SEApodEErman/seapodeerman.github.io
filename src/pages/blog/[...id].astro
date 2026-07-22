@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title={`${post.data.title} — SEApodEErman`} description={post.data.excerpt}>
+  <article class="article page-width">
+    <a class="back-link" href="/blog/">← All notes</a>
+    <header class="article-header">
+      <div><p class="eyebrow">{post.data.sample ? 'Sample post / replace me' : 'Field note'}</p><h1>{post.data.title}</h1></div>
+      <div class="article-meta"><time datetime={post.data.date.toISOString()}>{date}</time><span>{post.data.tags.join(' · ')}</span></div>
+    </header>
+    {post.data.sample && <aside class="sample-notice"><strong>This is sample content.</strong> It demonstrates the blog layout without claiming a real personal experience or achievement.</aside>}
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>

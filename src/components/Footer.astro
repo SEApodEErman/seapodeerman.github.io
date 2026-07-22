@@ -1,0 +1,24 @@
+---
+import { navigation, socialLinks } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="page-width footer-grid">
+    <div>
+      <a class="footer-name" href="/#top">SEApodEErman</a>
+      <p>Finding the small details that make rhythm, sound, and keypresses feel right.</p>
+    </div>
+    <div>
+      <p class="footer-label">Explore</p>
+      <nav aria-label="Footer navigation">{navigation.map((item) => <a href={`/${item.href}`}>{item.label}</a>)}</nav>
+    </div>
+    <div>
+      <p class="footer-label">Elsewhere</p>
+      <nav aria-label="Social links">{socialLinks.slice(0, 2).map((item) => <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{item.label}</a>)}</nav>
+    </div>
+  </div>
+  <div class="page-width footer-bottom">
+    <span>© {year} SEApodEErman</span><span>no thoughts, head's empty.</span><a href="#top">Back to top ↑</a>
+  </div>
+</footer>

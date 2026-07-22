@@ -1,0 +1,16 @@
+---
+interface Props {
+  post: { id: string; data: { title: string; excerpt: string; date: Date; tags: string[]; sample: boolean } };
+  index: number;
+}
+const { post, index } = Astro.props;
+const date = post.data.date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<article class="post-preview" data-reveal style={`--delay: ${index * 70}ms`}>
+  <div class="post-date"><span>{String(index + 1).padStart(2, '0')}</span><time datetime={post.data.date.toISOString()}>{date}</time></div>
+  <div>
+    <div class="post-heading-line"><h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>{post.data.sample && <span class="sample-badge">Sample post</span>}</div>
+    <p>{post.data.excerpt}</p><ul class="tag-list" aria-label="Post tags">{post.data.tags.map((tag) => <li>{tag}</li>)}</ul>
+  </div>
+  <a class="read-link" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>Read <span aria-hidden="true">↗</span></a>
+</article>

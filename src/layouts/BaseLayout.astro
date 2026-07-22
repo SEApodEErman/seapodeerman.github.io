@@ -1,0 +1,105 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props { title?: string; description?: string; }
+
+const {
+  title = 'SEApodEErman — osu! mapper & keyboard enthusiast',
+  description = 'The personal site of SEApodEErman, also known as Mahiru Shiina in osu! — beatmapper, hitsounder, mapping QA participant, and custom keyboard enthusiast.',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f0e4" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('theme');
+        document.documentElement.dataset.theme = saved || 'light';
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <main id="main-content"><slot /></main>
+    <Footer />
+    <script>
+      const root = document.documentElement;
+      const themeButton = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      const syncThemeLabel = () => {
+        if (!themeButton) return;
+        const dark = root.dataset.theme === 'dark';
+        themeButton.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
+        themeButton.setAttribute('aria-pressed', String(dark));
+      };
+      themeButton?.addEventListener('click', () => {
+        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', root.dataset.theme);
+        syncThemeLabel();
+      });
+      syncThemeLabel();
+
+      const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const nav = document.querySelector<HTMLElement>('[data-nav]');
+      const closeMenu = () => {
+        nav?.removeAttribute('data-open');
+        menuButton?.setAttribute('aria-expanded', 'false');
+      };
+      menuButton?.addEventListener('click', () => {
+        const open = nav?.toggleAttribute('data-open') ?? false;
+        menuButton.setAttribute('aria-expanded', String(open));
+      });
+      nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (reducedMotion || !('IntersectionObserver' in window)) {
+        reveals.forEach((item) => item.dataset.visible = 'true');
+      } else {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              (entry.target as HTMLElement).dataset.visible = 'true';
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        reveals.forEach((item) => observer.observe(item));
+      }
+
+      const sections = [...document.querySelectorAll<HTMLElement>('section[id]')];
+      const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav] a')];
+      if ('IntersectionObserver' in window && sections.length) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+          const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible) return;
+          navLinks.forEach((link) => link.toggleAttribute('aria-current', link.hash === `#${visible.target.id}`));
+        }, { rootMargin: '-30% 0px -60%', threshold: [0, 0.2, 0.5] });
+        sections.forEach((section) => sectionObserver.observe(section));
+      }
+
+      if (!reducedMotion) {
+        const parallax = document.querySelector<HTMLElement>('[data-parallax]');
+        let ticking = false;
+        const updateParallax = () => {
+          parallax?.style.setProperty('--parallax-y', `${Math.min(window.scrollY * 0.08, 48)}px`);
+          ticking = false;
+        };
+        window.addEventListener('scroll', () => {
+          if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>
