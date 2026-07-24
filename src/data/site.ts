@@ -27,7 +27,7 @@ export const projects = [
     title: 'Kotone — Kagome',
     description: 'A personal favourite of mine, really happy with the end result due to how the song stuck with me.',
     category: 'Beatmap showcase',
-    image: '/assets/projects/kagome-cover.webp',
+    image: '/assets/projects/kotone-kagome.webp',
     href: 'https://osu.ppy.sh/beatmapsets/2199809#osu/4672887',
     tags: ['osu!', 'mapping', 'hitsounds'],
     placeholder: false,

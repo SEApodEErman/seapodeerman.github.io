@@ -29,9 +29,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     <div class="hero-visual" data-reveal data-parallax style="--delay: 120ms">
       <div class="portrait-frame">
         <img src={profile.portrait} alt="SEApodEErman's profile avatar" />
-        <p><span>profile artwork</span><strong>Mahiru Shiina</strong></p>
+        <p><span>profile artwork</span><a href="https://x.com/hanekoto2424" target="_blank" rel="noopener noreferrer">art: @hanekoto2424 ↗</a></p>
       </div>
-      <div class="rhythm-orbit" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
       <div class="key-cluster" aria-hidden="true"><kbd>Z</kbd><kbd>X</kbd><kbd>01</kbd></div>
       <p class="visual-note">mapping feelings<br />into playable moments</p>
     </div>
@@ -95,7 +94,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
       <div data-reveal>
         <p class="eyebrow">05 / Say hello</p>
         <h2>Find me<br /><em>around.</em></h2>
-        <p class="contact-intro">Find my mapping profile, code, and social accounts below. For project or collaboration inquiries, email is the best place to reach me.</p>
+        <p class="contact-intro">Find my mapping profile, code, and social accounts below. For project or collaboration inquiries, Discord is the best place to reach me.</p>
       </div>
       <div class="social-list" data-reveal style="--delay: 90ms">
         {socialLinks.map((item, index) => (

@@ -118,12 +118,8 @@ p { text-wrap: pretty; }
 .portrait-frame::before { position: absolute; top: -9px; left: 46%; z-index: 2; width: 82px; height: 24px; background: color-mix(in srgb, var(--paper-deep) 74%, transparent); content: ''; transform: rotate(-5deg); }
 .portrait-frame img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .portrait-frame p { display: flex; justify-content: space-between; margin: 0; padding: 10px 12px; border-top: 1px solid var(--line); color: var(--muted); font: 0.63rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
-.portrait-frame strong { color: var(--rose-deep); }
-.rhythm-orbit { position: absolute; right: -2%; bottom: 1%; z-index: 3; width: 35%; aspect-ratio: 1; border: 1px solid var(--ink); border-radius: 50%; background: var(--paper); }
-.rhythm-orbit::before, .rhythm-orbit::after { position: absolute; inset: 19%; border: 1px solid var(--line-strong); border-radius: 50%; content: ''; }
-.rhythm-orbit::after { inset: 40%; background: var(--rose); border: 0; }
-.rhythm-orbit span { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--teal-deep); }
-.rhythm-orbit span:nth-child(1) { top: 7%; left: 47%; }.rhythm-orbit span:nth-child(2) { top: 46%; right: 7%; }.rhythm-orbit span:nth-child(3) { bottom: 7%; left: 47%; }.rhythm-orbit span:nth-child(4) { top: 46%; left: 7%; }
+.portrait-frame a { color: var(--rose-deep); text-decoration: none; }
+.portrait-frame a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .key-cluster { position: absolute; bottom: 11%; left: -11%; z-index: 4; display: flex; gap: 4px; transform: rotate(-5deg); }
 .key-cluster kbd { display: grid; place-items: center; width: 43px; height: 43px; border: 1px solid var(--line-strong); border-bottom-width: 4px; background: var(--surface); color: var(--ink); font: 700 0.72rem/1 var(--mono); box-shadow: 0 8px 14px rgba(32, 51, 55, 0.08); }
 .key-cluster kbd:last-child { width: 51px; background: var(--rose); color: #203337; }
@@ -156,7 +152,7 @@ p { text-wrap: pretty; }
 .project-card:nth-child(2) { margin-top: 72px; }
 .project-card:nth-child(3) { margin-top: 22px; }
 .project-image { position: relative; display: block; overflow: hidden; border: 1px solid var(--line); background: var(--mist); }
-.project-image img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 650ms var(--ease), filter 350ms ease; }
+.project-image img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 650ms var(--ease), filter 350ms ease; }
 .project-arrow { position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 42px; height: 42px; background: var(--paper); color: var(--ink); font-size: 1.1rem; transform: translate(55px, 55px); transition: transform 320ms var(--ease); }
 .project-image:hover img { transform: scale(1.035) rotate(-0.4deg); }
 .project-image:hover .project-arrow { transform: translate(0, 0); }
@@ -175,6 +171,11 @@ p { text-wrap: pretty; }
 .editor-note code { color: var(--ink); font: 0.7rem var(--mono); }
 
 .hobbies { background: var(--teal-deep); color: #fffaf1; }
+:root[data-theme='dark'] .hobbies { background: #28545a; }
+:root[data-theme='dark'] .hobbies .section-index,
+:root[data-theme='dark'] .hobbies .eyebrow,
+:root[data-theme='dark'] .hobbies .osu-detail span,
+:root[data-theme='dark'] .hobbies .hobby-top { color: #d5e7e8; }
 .hobbies .section-index, .hobbies .eyebrow { color: var(--paper-deep); }
 .hobby-layout { display: grid; grid-template-columns: 0.58fr 1.42fr; gap: clamp(32px, 7vw, 100px); }
 .hobby-intro > p { max-width: 330px; margin: 0; color: rgba(255, 250, 241, 0.72); font: 400 clamp(1.35rem, 2.3vw, 2rem)/1.4 var(--serif); }
