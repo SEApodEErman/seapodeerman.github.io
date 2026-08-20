@@ -6,7 +6,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, 
 ---
 <BaseLayout title="Notes — SEApodEErman" description="Sample notes and future writing from SEApodEErman about osu! mapping, hitsounds, keyboards, and creative interests.">
   <section class="page-hero page-width">
-    <a class="back-link" href="/#blog">← Home</a><p class="eyebrow">Notes / blog</p><h1>Thoughts between maps.</h1>
+    <a class="back-link" href="/#blog">← Home</a><p class="page-kicker">Notes / blog</p><h1>Thoughts between maps.</h1>
     <p>This is where I share my thoughts and experiences related to osu! mapping, hitsounds, keyboards, and other creative pursuits.</p>
   </section>
   <section class="blog-page page-width"><div class="post-list">{posts.map((post, index) => <BlogPreview post={post} index={index} />)}</div></section>
