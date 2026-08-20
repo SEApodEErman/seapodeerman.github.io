@@ -102,9 +102,8 @@ p { text-wrap: pretty; }
 .hero-kicker span + span::before { margin-right: 14px; color: var(--rose-deep); content: '/'; }
 .hero h1 { max-width: none; margin-bottom: 20px; font: 400 clamp(2.35rem, 5.9vw, 6rem)/0.9 var(--serif); letter-spacing: -0.085em; white-space: nowrap; }
 .hero h1 > span { display: inline; margin-left: 0.04em; color: var(--rose-deep); font-style: italic; }
-.hero-alias { display: flex; align-items: center; gap: 10px; margin: 28px 0 0; color: var(--teal-deep); font: 650 clamp(0.96rem, 1.8vw, 1.16rem)/1.35 var(--sans); }
-.hero-alias span { color: var(--muted); font: 500 0.65rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .hero-intro { max-width: 580px; margin: 20px 0 0; color: var(--muted); font-size: clamp(1.03rem, 1.6vw, 1.2rem); line-height: 1.7; }
+.hero-alias-inline { color: var(--muted); font: 500 0.78rem/1.4 var(--mono); letter-spacing: 0.02em; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 32px; }
 .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 49px; padding: 0 18px; border: 1px solid var(--line-strong); color: var(--ink); font-size: 0.8rem; font-weight: 720; text-decoration: none; transition: color 220ms ease, background 220ms ease, transform 220ms var(--ease); }
 .button:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
@@ -124,8 +123,8 @@ p { text-wrap: pretty; }
 .key-cluster kbd { display: grid; place-items: center; width: 43px; height: 43px; border: 1px solid var(--line-strong); border-bottom-width: 4px; background: var(--surface); color: var(--ink); font: 700 0.72rem/1 var(--mono); box-shadow: 0 8px 14px rgba(32, 51, 55, 0.08); }
 .key-cluster kbd:last-child { width: 51px; background: var(--rose); color: #203337; }
 .visual-note { position: absolute; top: 20%; right: -12%; z-index: 3; margin: 0; color: var(--teal-deep); font: 0.59rem/1.5 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(90deg) translateX(50%); transform-origin: right; }
-.hero-marquee { position: absolute; right: calc((100vw - min(1180px, calc(100vw - 48px))) / -2); bottom: 25px; left: calc((100vw - min(1180px, calc(100vw - 48px))) / -2); display: flex; align-items: center; justify-content: center; gap: clamp(18px, 3vw, 48px); min-height: 52px; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font: 650 0.66rem/1 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap; }
-.hero-marquee i { color: var(--rose-deep); font-style: normal; font-size: 1rem; }
+.hero-strip { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 3vw, 48px); min-height: 52px; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font: 650 0.66rem/1 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap; }
+.hero-strip i { color: var(--rose-deep); font-style: normal; font-size: 1rem; }
 
 .section-shell { padding: clamp(90px, 12vw, 155px) 0; border-top: 1px solid var(--line); }
 .section-heading { display: grid; grid-template-columns: minmax(60px, 0.28fr) minmax(0, 1.72fr); gap: 28px; margin-bottom: clamp(52px, 7vw, 84px); }
@@ -297,14 +296,13 @@ p { text-wrap: pretty; }
   .hero::before, .hero::after { top: 5%; left: -35%; width: 310px; }
   .hero h1 { font-size: clamp(2.35rem, 10.5vw, 4.45rem); }
   .hero-intro, .section-intro { width: 100%; overflow-wrap: anywhere; }
-  .hero-alias { align-items: flex-start; flex-direction: column; gap: 5px; }
   .hero-actions { align-items: stretch; flex-direction: column; }
   .hero-actions .button { width: 100%; }
   .text-link { margin: 8px 0 0; text-align: center; }
   .hero-visual { width: min(88%, 380px); margin-top: 34px; margin-right: 2%; }
   .portrait-frame { margin-right: 7%; }
   .key-cluster { left: -7%; }
-  .hero-marquee { right: -15px; left: -15px; justify-content: flex-start; padding-left: 18px; }
+  .hero-strip { justify-content: flex-start; padding-left: 18px; }
   .section-shell { padding: 88px 0; }
   .section-heading { grid-template-columns: 30px 1fr; gap: 12px; margin-bottom: 50px; }
   .section-heading h2, .contact h2, .page-hero h1 { font-size: clamp(2.75rem, 13vw, 4.3rem); }
