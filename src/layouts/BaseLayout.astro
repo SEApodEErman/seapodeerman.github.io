@@ -89,17 +89,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         sections.forEach((section) => sectionObserver.observe(section));
       }
 
-      if (!reducedMotion) {
-        const parallax = document.querySelector<HTMLElement>('[data-parallax]');
-        let ticking = false;
-        const updateParallax = () => {
-          parallax?.style.setProperty('--parallax-y', `${Math.min(window.scrollY * 0.08, 48)}px`);
-          ticking = false;
-        };
-        window.addEventListener('scroll', () => {
-          if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
-        }, { passive: true });
-      }
     </script>
   </body>
 </html>
