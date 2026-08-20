@@ -20,6 +20,7 @@ export const socialLinks = [
   { label: 'Email', handle: 'seapodeerman.business@gmail.com', href: 'mailto:seapodeerman.business@gmail.com', placeholder: false },
   { label: 'Twitter', handle: '@seapodeerman', href: 'https://twitter.com/seapodeerman', placeholder: false },
   { label: 'Discord', handle: 'seapodeerman', href: 'https://discord.com/users/397729598391189505', placeholder: false },
+  { label: 'Ko-fi', handle: 'Support my work', href: 'https://ko-fi.com/seapodeerman', placeholder: false },
 ];
 
 export const projects = [
