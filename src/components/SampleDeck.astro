@@ -1,0 +1,151 @@
+---
+---
+<div class="sample-deck" role="group" aria-label="Playable sample deck">
+  <div class="sample-deck-head"><span class="rec">sample deck</span></div>
+  <div class="sample-deck-keys">
+    <button class="keycap" type="button" data-sound="kick" data-key="z">Z</button>
+    <button class="keycap" type="button" data-sound="snare" data-key="x">X</button>
+    <button class="keycap" type="button" data-sound="crash" data-key="c">C</button>
+  </div>
+  <p class="sample-deck-foot">Click or press <b>Z X C</b>.</p>
+</div>
+
+<script>
+  const FILES: Record<string, string> = {
+    kick: '/assets/audio/kick.wav',
+    snare: '/assets/audio/snare.wav',
+    crash: '/assets/audio/crash.wav',
+  };
+  let ctx: AudioContext | null = null;
+  const buffers = new Map<string, AudioBuffer>();
+  const loading = new Map<string, Promise<AudioBuffer | null>>();
+
+  function ac(): AudioContext | null {
+    const w = window as unknown as { webkitAudioContext?: typeof AudioContext };
+    const AC = window.AudioContext || w.webkitAudioContext;
+    if (!AC) return null;
+    if (!ctx) ctx = new AC();
+    if (ctx.state === 'suspended') void ctx.resume();
+    return ctx;
+  }
+  let master: GainNode | null = null;
+  function out(c: AudioContext): AudioNode {
+    if (!master || master.context !== c) {
+      master = c.createGain();
+      master.gain.value = 0.5;
+      master.connect(c.destination);
+    }
+    return master;
+  }
+  function loadSample(name: string): Promise<AudioBuffer | null> {
+    const cached = buffers.get(name);
+    if (cached) return Promise.resolve(cached);
+    const ongoing = loading.get(name);
+    if (ongoing) return ongoing;
+    const url = FILES[name];
+    if (!url) return Promise.resolve(null);
+    const p = (async (): Promise<AudioBuffer | null> => {
+      try {
+        const c = ac();
+        if (!c) return null;
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const buf = await c.decodeAudioData(await res.arrayBuffer());
+        buffers.set(name, buf);
+        return buf;
+      } catch {
+        return null;
+      } finally {
+        loading.delete(name);
+      }
+    })();
+    loading.set(name, p);
+    return p;
+  }
+  function prime(): void {
+    ac();
+    void loadSample('kick');
+    void loadSample('snare');
+    void loadSample('crash');
+  }
+  function kickSynth() {
+    const c = ac();
+    if (!c) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(160, c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(42, c.currentTime + 0.12);
+    g.gain.setValueAtTime(0.9, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.28);
+    o.connect(g).connect(out(c));
+    o.start();
+    o.stop(c.currentTime + 0.3);
+  }
+  function noiseBuf(c: AudioContext, dur: number): AudioBuffer {
+    const b = c.createBuffer(1, Math.floor(c.sampleRate * dur), c.sampleRate);
+    const d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+  function snareSynth() {
+    const c = ac();
+    if (!c) return;
+    const s = c.createBufferSource();
+    s.buffer = noiseBuf(c, 0.2);
+    const f = c.createBiquadFilter();
+    f.type = 'highpass';
+    f.frequency.value = 1800;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.6, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.2);
+    s.connect(f).connect(g).connect(out(c));
+    s.start();
+  }
+  function crashSynth() {
+    const c = ac();
+    if (!c) return;
+    const s = c.createBufferSource();
+    s.buffer = noiseBuf(c, 0.6);
+    const f = c.createBiquadFilter();
+    f.type = 'highpass';
+    f.frequency.value = 6500;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.35, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.6);
+    s.connect(f).connect(g).connect(out(c));
+    s.start();
+  }
+  const synthFallback = { kick: kickSynth, snare: snareSynth, crash: crashSynth };
+  async function fire(btn: HTMLButtonElement): Promise<void> {
+    const name = btn.dataset.sound ?? '';
+    btn.classList.add('hit');
+    window.setTimeout(() => btn.classList.remove('hit'), 140);
+    const buf = await loadSample(name);
+    if (buf) {
+      const c = ac();
+      if (!c) return;
+      const s = c.createBufferSource();
+      s.buffer = buf;
+      s.connect(out(c));
+      s.start();
+      return;
+    }
+    const fn = synthFallback[name as keyof typeof synthFallback];
+    if (fn) fn();
+  }
+  document.querySelectorAll('.sample-deck').forEach((deck) => {
+    deck.querySelectorAll<HTMLButtonElement>('.keycap').forEach((btn) => {
+      btn.addEventListener('click', () => void fire(btn));
+    });
+  });
+  window.addEventListener('pointerdown', prime, { once: true, capture: true });
+  window.addEventListener('keydown', prime, { once: true, capture: true });
+  window.addEventListener('keydown', (e) => {
+    if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+    const t = e.target;
+    if (t instanceof HTMLElement && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    const key = e.key.toLowerCase();
+    const btn = document.querySelector(`.sample-deck .keycap[data-key="${key}"]`);
+    if (btn instanceof HTMLButtonElement) fire(btn);
+  });
+</script>
