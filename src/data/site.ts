@@ -3,6 +3,7 @@ export const navigation = [
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
   { label: 'Hobbies', href: '#hobbies' },
+  { label: 'Desk', href: '#setup' },
   { label: 'Notes', href: '#blog' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -62,7 +63,7 @@ export const projects = [
 ];
 
 export const hobbies = [
-  { number: '01', title: 'Beatmapping', label: 'Rhythm / structure', description: 'Shaping music into playable patterns with strong emphasis on my idealogy: The more you f*ck around, the more you are going to find out.', icon: 'ph-music-notes' },
+  { number: '01', title: 'Beatmapping', label: 'Rhythm / structure', description: 'Shaping music into playable patterns with strong emphasis on my ideology: The more you f*ck around, the more you are going to find out.', icon: 'ph-music-notes' },
   { number: '02', title: 'Hitsounds', label: 'Audio / texture', description: 'Giving a map another layer of expression through carefully placed sounds while enjoying the experimentation with samples.', icon: 'ph-waveform' },
   { number: '03', title: 'Custom keyboards', label: 'Hardware / feel', description: 'Exploring the tiny decisions that change how a board looks, sounds, and feels. From layout to the final keypress.', icon: 'ph-keyboard' },
   { number: '04', title: 'Anime & creative things', label: 'Inspiration / mood', description: 'A soft spot for anime-inspired aesthetics and the creative details that make digital spaces feel personal.', icon: 'ph-sparkle' },

@@ -2,10 +2,8 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-import '@fontsource/geist-sans/400.css';
-import '@fontsource/geist-sans/500.css';
-import '@fontsource/geist-sans/600.css';
-import '@fontsource/geist-sans/700.css';
+import '@fontsource/atkinson-hyperlegible/400.css';
+import '@fontsource/atkinson-hyperlegible/700.css';
 import '@fontsource/geist-mono/400.css';
 import '@fontsource/geist-mono/500.css';
 import '@fontsource/geist-mono/600.css';
@@ -39,6 +37,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="editor-ruler" aria-hidden="true">
+      <span class="editor-ruler-readout" data-ruler-readout>00:00:000</span>
+      <span class="editor-ruler-playhead" data-ruler-playhead></span>
+    </div>
     <Header />
     <main id="main-content"><slot /></main>
     <Footer />
@@ -97,6 +99,26 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         sections.forEach((section) => sectionObserver.observe(section));
       }
 
+      // Workshop-A editor ruler: tick strip + playhead follows scroll progress,
+      // readout maps progress to a 3:00.000 timeline (MM:SS:mmm). Passive listener.
+      const ruler = document.querySelector<HTMLElement>('.editor-ruler');
+      const playhead = document.querySelector<HTMLElement>('[data-ruler-playhead]');
+      const readout = document.querySelector<HTMLElement>('[data-ruler-readout]');
+      if (ruler && playhead && readout) {
+        for (let i = 0; i < 60; i++) ruler.appendChild(document.createElement('i'));
+        const updateRuler = () => {
+          const max = Math.max(1, document.body.scrollHeight - window.innerHeight);
+          const progress = Math.min(1, Math.max(0, window.scrollY / max));
+          playhead.style.left = `${progress * 100}%`;
+          const ms = Math.floor(progress * 447067);
+          const minutes = String(Math.floor(ms / 60000)).padStart(2, '0');
+          const seconds = String(Math.floor((ms % 60000) / 1000)).padStart(2, '0');
+          const millis = String(ms % 1000).padStart(3, '0');
+          readout.textContent = `${minutes}:${seconds}:${millis}`;
+        };
+        window.addEventListener('scroll', updateRuler, { passive: true });
+        updateRuler();
+      }
     </script>
   </body>
 </html>

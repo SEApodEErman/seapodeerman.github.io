@@ -15,7 +15,7 @@
   --line-strong: rgba(32, 51, 55, 0.52);
   --shadow: 0 24px 70px rgba(62, 52, 42, 0.13);
   --serif: Georgia, 'Times New Roman', serif;
-  --sans: 'Geist Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sans: 'Atkinson Hyperlegible', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --mono: 'Geist Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   color-scheme: light;
@@ -99,7 +99,7 @@ p { text-wrap: pretty; }
 .hero::after { position: absolute; top: 8%; left: -9vw; z-index: -1; width: clamp(210px, 31vw, 430px); aspect-ratio: 1; background: repeating-radial-gradient(circle, transparent 0 30px, rgba(85, 134, 140, 0.075) 31px 32px); border-radius: 50%; content: ''; transform: scale(0.72); }
 .hero-copy { position: relative; z-index: 2; }
 .hero-copy, .section-heading > div, .about-grid > *, .contact-grid > * { min-width: 0; }
-.hero-kicker { display: flex; gap: 14px; margin-bottom: 24px; color: var(--teal-deep); font: 650 0.69rem/1 var(--mono); letter-spacing: 0.13em; text-transform: uppercase; }
+.hero-kicker { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 24px; color: var(--teal-deep); font: 650 0.69rem/1 var(--mono); letter-spacing: 0.13em; text-transform: uppercase; }
 .hero-kicker span + span::before { margin-right: 14px; color: var(--rose-deep); content: '/'; }
 .hero h1 { max-width: none; margin-bottom: 20px; font: 400 clamp(2.35rem, 5.9vw, 6rem)/0.9 var(--serif); letter-spacing: -0.085em; white-space: nowrap; }
 .hero h1 > span { display: inline; margin-left: 0.04em; color: var(--rose-deep); font-style: italic; }
@@ -109,6 +109,7 @@ p { text-wrap: pretty; }
 .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 49px; padding: 0 18px; border: 1px solid var(--line-strong); color: var(--ink); font-size: 0.8rem; font-weight: 720; text-decoration: none; transition: color 220ms ease, background 220ms ease, transform 220ms var(--ease); }
 .button:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
 .button-primary { border-color: var(--rose-deep); background: var(--rose-deep); color: #fffaf1; }
+:root[data-theme='dark'] .button-primary { color: #203337; }
 .button-primary:hover { border-color: var(--teal-deep); background: var(--teal-deep); color: var(--paper); }
 .text-link { margin-left: 8px; color: var(--muted); font-size: 0.78rem; font-weight: 700; }
 .text-link:hover { color: var(--rose-deep); }
@@ -120,10 +121,7 @@ p { text-wrap: pretty; }
 .portrait-frame p { display: flex; justify-content: space-between; margin: 0; padding: 10px 12px; border-top: 1px solid var(--line); color: var(--muted); font: 0.63rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .portrait-frame a { color: var(--rose-deep); text-decoration: none; }
 .portrait-frame a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.key-cluster { position: absolute; bottom: 11%; left: -11%; z-index: 4; display: flex; gap: 4px; transform: rotate(-5deg); }
-.key-cluster kbd { display: grid; place-items: center; width: 43px; height: 43px; border: 1px solid var(--line-strong); border-bottom-width: 4px; background: var(--surface); color: var(--ink); font: 700 0.72rem/1 var(--mono); box-shadow: 0 8px 14px rgba(32, 51, 55, 0.08); }
-.key-cluster kbd:last-child { width: 51px; background: var(--rose); color: #203337; }
-.visual-note { position: absolute; top: 20%; right: -12%; z-index: 3; margin: 0; color: var(--teal-deep); font: 0.59rem/1.5 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(90deg) translateX(50%); transform-origin: right; }
+.visual-note { position: absolute; top: 20%; right: 0; z-index: 3; margin: 0; color: var(--teal-deep); font: 0.59rem/1.5 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(90deg) translateX(50%); transform-origin: right; }
 .hero-strip { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 3vw, 48px); min-height: 52px; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font: 650 0.66rem/1 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap; }
 .hero-strip i { color: var(--rose-deep); font-style: normal; font-size: 1rem; }
 
@@ -295,14 +293,13 @@ p { text-wrap: pretty; }
   .theme-icon { width: 28px; height: 28px; }
   .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 60px; padding-bottom: 130px; }
   .hero::before, .hero::after { top: 5%; left: -35%; width: 310px; }
-  .hero h1 { font-size: clamp(2.35rem, 10.5vw, 4.45rem); }
+  .hero h1 { font-size: clamp(2.35rem, 10.5vw, 4.45rem); white-space: normal; overflow-wrap: break-word; }
   .hero-intro, .section-intro { width: 100%; overflow-wrap: anywhere; }
   .hero-actions { align-items: stretch; flex-direction: column; }
   .hero-actions .button { width: 100%; }
   .text-link { margin: 8px 0 0; text-align: center; }
   .hero-visual { width: min(88%, 380px); margin-top: 34px; margin-right: 2%; }
   .portrait-frame { margin-right: 7%; }
-  .key-cluster { left: -7%; }
   .hero-strip { justify-content: flex-start; padding-left: 18px; }
   .section-shell { padding: 88px 0; }
   .section-heading { grid-template-columns: 30px 1fr; gap: 12px; margin-bottom: 50px; }
@@ -343,3 +340,191 @@ p { text-wrap: pretty; }
   .site-header { backdrop-filter: none; background: var(--paper); }
   .hobby-card:hover { transform: none; background: var(--teal-deep); }
 }
+
+/* ============ WORKSHOP-A (direction A) appendix — ADDITIVE ONLY ============
+   Adapted from the direction-A prototype. Existing tokens, themes, and rules
+   above are untouched; everything below only adds new class hooks. */
+
+/* Film-grain overlay: 1KB inline SVG, no new files. Sits above content but
+   below header/skip-link; pointer-events none so it never blocks input. */
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  content: '';
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* Editor ruler: fixed scroll-progress bar with playhead + MM:SS:mmm readout.
+   Sticky site header is offset below it (override lives here, base rule kept). */
+.editor-ruler {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  height: 26px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+.editor-ruler i { flex: 1; height: 8px; border-left: 1px solid var(--line); }
+.editor-ruler i:nth-child(4n+1) { height: 14px; }
+.editor-ruler-playhead { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--rose-deep); }
+.editor-ruler-readout {
+  position: absolute;
+  top: 1px;
+  left: 8px;
+  color: var(--muted);
+  font: 600 0.58rem/1 var(--mono);
+  letter-spacing: 0.1em;
+}
+.site-header { top: 26px; }
+html { scroll-padding-top: 116px; }
+
+/* Sample deck: playable keycap row (synth stand-in until real .wav wiring). */
+.sample-deck { border: 1px solid var(--line-strong); background: var(--surface); box-shadow: var(--shadow); }
+.sample-deck-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font: 600 0.62rem/1 var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.sample-deck-head .rec { display: inline-flex; align-items: center; gap: 6px; color: var(--rose-deep); }
+.sample-deck-head .rec::before { width: 8px; height: 8px; border-radius: 50%; background: var(--rose-deep); content: ''; }
+.sample-deck-keys { display: flex; gap: 10px; align-items: stretch; padding: 16px 14px; }
+.keycap {
+  flex: 1;
+  padding: 12px 6px 10px;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  font: 700 0.8rem/1.3 var(--mono);
+  text-align: center;
+  transition: transform 120ms var(--ease), background 150ms ease;
+}
+.keycap small { display: block; color: var(--muted); font-size: 0.58rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.keycap:hover { transform: translateY(-2px); }
+.keycap:active, .keycap.hit { border-bottom-width: 1px; background: var(--rose); transform: translateY(2px); }
+.keycap.hit small { color: #203337; }
+.sample-deck-foot { padding: 10px 14px; border-top: 1px solid var(--line); color: var(--muted); font: 0.62rem/1.6 var(--mono); }
+.sample-deck-foot b { color: var(--teal-deep); }
+
+/* Spec rows: project shelf entries with real IDs/specs, thumb + body. */
+.spec-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  margin-bottom: 18px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  transition: transform 250ms var(--ease), box-shadow 250ms var(--ease);
+}
+.spec-row:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+.spec-row-thumb {
+  display: grid;
+  min-height: 170px;
+  padding: 12px;
+  border-right: 1px solid var(--line-strong);
+  background: var(--mist);
+  color: var(--muted);
+  font: 600 0.62rem/1.5 var(--mono);
+  letter-spacing: 0.08em;
+  place-items: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+.spec-row-body { padding: 20px 22px; }
+.spec-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-bottom: 10px;
+  color: var(--teal-deep);
+  font: 620 0.6rem/1.4 var(--mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.spec-row-meta .cat { padding: 4px 7px; background: var(--paper-deep); color: #30464a; }
+:root[data-theme='dark'] .spec-row-meta .cat { color: var(--ink); }
+.spec-row-body h3 { margin: 0 0 8px; font: 400 clamp(1.4rem, 2.2vw, 1.9rem)/1.1 var(--serif); letter-spacing: -0.025em; }
+.spec-row-body h3 a { text-decoration: none; }
+.spec-row-body h3 a:hover { color: var(--rose-deep); }
+.spec-row-body p { max-width: 70ch; margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+/* Bento cells: setup/desk inventory grid. */
+.bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+.bento-cell {
+  position: relative;
+  min-height: 150px;
+  padding: 20px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  transition: transform 250ms var(--ease);
+}
+.bento-cell:hover { transform: translateY(-3px); }
+.bento-cell h3 { margin: 8px 0 10px; font: 400 1.9rem/1.15 var(--serif); letter-spacing: -0.02em; }
+.bento-cell .k { color: var(--rose-deep); font: 600 0.6rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.bento-cell ul { padding: 0; margin: 10px 0 0; color: var(--muted); font-size: 0.85rem; list-style: none; }
+.bento-cell ul b { color: var(--ink); font-weight: 650; }
+.bento-cell.span-4 { grid-column: span 4; }
+.bento-cell.span-6 { grid-column: span 6; }
+.bento-cell.span-8 { grid-column: span 8; }
+.bento-cell.span-12 { grid-column: span 12; }
+.bento-cell.accent { border-color: var(--teal-deep); background: var(--teal-deep); color: #fffaf1; }
+.bento-cell.accent .k, .bento-cell.accent ul { color: rgba(255, 250, 241, 0.75); }
+.bento-cell.accent h3 { color: #fffaf1; }
+.bento-cell.rose { border-color: var(--rose-deep); background: var(--rose); color: #203337; }
+.bento-cell.rose .k, .bento-cell.rose ul { color: rgba(32, 51, 55, 0.75); }
+
+/* Reveal-on-scroll: base [data-reveal] rules above are reused as-is.
+   Stagger helpers below only set the existing --delay token. */
+[data-reveal-delay='1'] { --delay: 90ms; }
+[data-reveal-delay='2'] { --delay: 180ms; }
+[data-reveal-delay='3'] { --delay: 270ms; }
+
+@media (max-width: 900px) {
+  .spec-row { grid-template-columns: 1fr; }
+  .spec-row-thumb { min-height: 110px; border-right: 0; border-bottom: 1px solid var(--line-strong); }
+  .bento-cell.span-4, .bento-cell.span-6, .bento-cell.span-8 { grid-column: span 12; }
+}
+
+/* ============ PHASE 3 — relocated inline styles (were style="..." in index.astro) ============ */
+.hero-deck { margin-top: 28px; max-width: 560px; }
+.hero-alias-inline { margin-top: 14px; }
+.spec-row-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ============ PHASE 3 — 360px responsive hardening (CSS only) ============ */
+/* Grid children default to min-width:auto, which lets long receipt/tag strings
+   force horizontal overflow. Clamp them and allow wrapping. */
+.spec-row > *, .bento-cell, .sample-deck { min-width: 0; }
+.spec-row-meta span:last-child, .bento-cell ul li { overflow-wrap: anywhere; }
+.sample-deck-keys { min-width: 0; }
+.sample-deck-head { flex-wrap: wrap; gap: 6px 12px; }
+@media (max-width: 680px) {
+  .sample-deck-keys { gap: 8px; padding: 14px 12px; }
+  .keycap { padding: 10px 4px 8px; font-size: 0.72rem; }
+  .portrait-frame p { flex-wrap: wrap; gap: 4px 10px; }
+}
+
+/* ============ PHASE 3 — dark-mode readability fixes (existing tokens only) ============ */
+/* .keycap.hit sits on light rose: force dark text in dark mode (light-on-light otherwise). */
+:root[data-theme='dark'] .keycap:active,
+:root[data-theme='dark'] .keycap.hit { color: #203337; }
+/* Accent bento cell: --teal-deep flips light in dark mode, so white text on it
+   was unreadable. Pin the cell to the deep-teal surface token instead. */
+:root[data-theme='dark'] .bento-cell.accent { border-color: #28545a; background: #28545a; color: #fffaf1; }
+/* Category chips: dark override lives with the base rule above (uses --ink). */
+/* Same hardcoded dark-on-paper-deep issue on legacy project cards + sample badges. */
+:root[data-theme='dark'] .project-meta span,
+:root[data-theme='dark'] .sample-badge { color: var(--ink); }
