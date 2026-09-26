@@ -1,3 +1,9 @@
+import mainAvatar from '../assets/profile/main-avatar.jpg';
+import kotoneKagome from '../assets/projects/kotone-kagome.webp';
+import haibokuCover from '../assets/projects/haiboku-no-altra-vita-cover.webp';
+import kawayoCover from '../assets/projects/kawayo.webp';
+import reqtracLogo from '../assets/projects/reqtrac-logo.webp';
+
 // Main editing hub. Replace entries marked `placeholder: true` as real details become available.
 export const navigation = [
   { label: 'About', href: '#about' },
@@ -12,7 +18,7 @@ export const profile = {
   name: 'SEApodEErman',
   alias: 'Mahiru Shiina in osu!',
   intro: 'osu! beatmapper, hitsounder, custom mapping QA for several tournaments, and a custom keyboard enthusiast.',
-  portrait: '/assets/profile/main-avatar.webp',
+  portrait: mainAvatar,
 };
 
 export const socialLinks = [
@@ -29,7 +35,7 @@ export const projects = [
     title: 'Kotone — Kagome',
     description: 'A personal favourite of mine, really happy with the end result due to how the song stuck with me.',
     category: 'Beatmap showcase',
-    image: '/assets/projects/kotone-kagome.webp',
+    image: kotoneKagome,
     href: 'https://osu.ppy.sh/beatmapsets/2199809#osu/4672887',
     tags: ['osu!', 'mapping', 'hitsounds'],
     placeholder: false,
@@ -38,7 +44,7 @@ export const projects = [
     title: 'takehirotei — Haiboku no Altra Vita',
     description: 'I went all-out on hitsounds, choosing samples to mirror the song’s multi-genre shifts. I also solo-mapped the Hard and contributed sections to the Easy, Expert, and top difficulty.',
     category: 'Hitsound showcase',
-    image: '/assets/projects/haiboku-no-altra-vita-cover.webp',
+    image: haibokuCover,
     href: 'https://osu.ppy.sh/beatmapsets/2412331#osu/5297696',
     tags: ['hitsounds', 'audio', 'mapping'],
     placeholder: false,
@@ -47,7 +53,7 @@ export const projects = [
     title: 'Kawayo by The Flying Penguin',
     description: 'A 65% CNC aluminum board I won at MYMK 2025, with a brass Toblerone rear weight. Built with Kailh BCP switches, GMK Jamon clone keycaps, Typeplus stabilizers, and a custom-cut POM plate using PCBSnap mounting.',
     category: 'Keyboard showcase',
-    image: '/assets/projects/kawayo.webp',
+    image: kawayoCover,
     tags: ['65%', 'Kailh BCP', 'POM plate'],
     placeholder: false,
   },
@@ -55,7 +61,7 @@ export const projects = [
     title: 'osu! ReqTrac',
     description: 'A side project I\'m currently working on to track and manage osu! mapping related requests. Currently released but in early stages, with more features planned for the future.',
     category: 'application showcase',
-    image: '/assets/projects/reqtrac-logo.webp',
+    image: reqtracLogo,
     href: 'https://github.com/SEApodEErman/osu-ReqTrac',
     tags: ['osu!', 'requests', 'tracking'],
     placeholder: false,

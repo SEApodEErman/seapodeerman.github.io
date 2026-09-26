@@ -117,7 +117,7 @@ p { text-wrap: pretty; }
 .hero-visual { position: relative; width: min(100%, 430px); margin-left: auto; }
 .portrait-frame { position: relative; z-index: 2; margin: 0 12% 8% 0; border: 1px solid var(--line-strong); background: var(--mist); box-shadow: var(--shadow); transform: rotate(1.6deg); }
 .portrait-frame::before { position: absolute; top: -9px; left: 46%; z-index: 2; width: 82px; height: 24px; background: color-mix(in srgb, var(--paper-deep) 74%, transparent); content: ''; transform: rotate(-5deg); }
-.portrait-frame img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.portrait-frame img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
 .portrait-frame p { display: flex; justify-content: space-between; margin: 0; padding: 10px 12px; border-top: 1px solid var(--line); color: var(--muted); font: 0.63rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .portrait-frame a { color: var(--rose-deep); text-decoration: none; }
 .portrait-frame a:hover { text-decoration: underline; text-underline-offset: 3px; }
