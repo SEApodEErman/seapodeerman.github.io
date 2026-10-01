@@ -57,6 +57,20 @@ Each board below has its own take on feel, sound, and build philosophy. The phot
 - **Mounting:** KBDfans Margo Gasket Kit mod
 - **Notes:** Case foam, plate foam, and IXPE switch pad installed
 
+The KBD67 Lite was the third keyboard I owned. Before this, I had a Monsgeek M3 which I eventually sold. It was cheap and had an aluminum case, but honestly that was about the most interesting thing about it. I didn't particularly enjoy the board itself. Aluminum can only do so much.
+
+Like my MKC75, I bought this after its initial moment in the spotlight. When the KBD67 Lite first launched, it offered a lot for the price, though it was already somewhat outdated by the time I picked one up. What stuck with me was the smoky black translucent case and the per-key RGB. I wanted something I could see through, and this looked the part. The Aifei Neon keycaps have that same smoky black translucent look, so they fit the case practically 1:1. I mainly bought this board for the looks and I'm quite happy to admit that.
+
+The initial switch plan was basically "throw whatever I have into it." Then I got enough Keebfront Honeycomb switches for the whole board for free, which made that decision very easy. They stayed. The build itself went pretty seamlessly too, other than the part where the case's screw posts cracked two days after I finished putting it together. I'd overtightened the screws. That one's on me. I just lived with it.
+
+The more interesting experiment was the mounting. The stock silicone dampener also acts as the mount, so you can't simply take it out and expect the plate and PCB to sit properly in the case. It was muting the sound a bit too much for my taste. KBDfans had a Margo Gasket Kit intended for the aluminum Margo, and since the two boards share the same plate and PCB, my thought process was pretty much: "Why not?"
+
+So I tried it. It made the board sound a bit more alive compared to the original silicone setup. The kit also came with the case foam, plate foam, and IXPE switch pad that are in this build. I did try going foamless, but the hollow plastic case gave me unpleasant resonance and hollowness. Back in went the foam. I like my other boards foamless, but this one didn't give me a reason to insist on it.
+
+These days I prefer the higher-pitched clack of my Neo60 Core and Kawayo. Their foamless builds sound more interesting to me, while the Honeycombs in this board sound... okay. A bit boring for my current taste, even with the improvement from the Margo kit. It doesn't get used as often now, but I still bring it out occasionally when I want to sit there and admire the RGB. My other boards have none, so this one still has a job.
+
+I'm still happy I bought it. Even though it was my third keyboard, it felt like my first step into the custom keyboard world beyond mass-produced boards stuffed with foam. I got to try a different mount, find out what removing foam actually did in this case, and put together a look I still enjoy. The foam ended up staying, and so did the cracked screw posts. But so did the board.
+
 ### Kawayo
 
 <figure>

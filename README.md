@@ -1,47 +1,86 @@
 # SEApodEErman personal site
 
-A static, responsive personal site for **SEApodEErman**, also known as **Mahiru Shiina in osu!** It is built with [Astro](https://astro.build/) and deploys to [seapodeerman.github.io](https://seapodeerman.github.io) through GitHub Actions.
+A static personal site for **SEApodEErman**, also known as **Mahiru Shiina in osu!**, with projects, keyboards, tournament contributions, and writing. Built with [Astro](https://astro.build/) and published to [seapodeerman.top](https://seapodeerman.top) through GitHub Pages.
 
-The project has no backend, database, analytics, form handler, or runtime API. Astro prerenders every page into plain files in `dist/`.
+Astro generates every page at build time. The site has no backend, database, accounts, analytics, form handler, or runtime API.
 
 ## Local development
 
-Use Node.js 24 (the deployment workflow uses Node 24). Then run:
+Use **Node.js 24**, matching the deployment workflow, and install the locked dependencies:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Astro prints the local URL, normally `http://localhost:4321`.
-
-Useful commands:
+Astro prints the local address, normally `http://localhost:4321`.
 
 ```sh
 npm run check    # Validate Astro and TypeScript files
-npm run build    # Run checks and create the production site in dist/
-npm run preview  # Preview the completed production build
+npm run build    # Run checks and generate the production site
+npm run preview  # Serve the completed production build
 ```
 
-`dist/` is generated and ignored by Git. Do not edit it directly.
+There are no separate test, lint, formatter, or local deployment scripts. Both `dist/` and `.astro/` are generated and ignored; do not edit them directly.
 
-## Editing the site
+## Editing content
 
-Most frequently edited content is centralized in [`src/data/site.ts`](src/data/site.ts):
+[`src/data/site.ts`](src/data/site.ts) holds shared identity and navigation:
 
-- Main navigation
-- Name, osu! alias, and short introduction
-- Social/contact links
-- Project cards, screenshots, external links, and tags
-- Hobby cards
+- Navigation, profile, hero artwork, and social/profile links
+- Tournament and community contributions
 
-Entries with `placeholder: true` are intentionally shown as placeholders. Replace their text, image path, and URL, then set `placeholder: false` (or remove that property) when the information is real.
+Projects and keyboard builds are Markdown Content Collections, validated by
+[`src/content.config.ts`](src/content.config.ts):
 
-The longer biography and section copy are in [`src/pages/index.astro`](src/pages/index.astro). Shared page structure is in `src/components/`, and the full visual system is in [`src/styles/global.css`](src/styles/global.css).
+- [`src/content/projects/`](src/content/projects/): selected beatmaps, hitsounding, and software. Frontmatter holds title, description, category (`Beatmapping`, `Hitsounds`, or `Software`), image, imageAlt, href, externalLabel, role, tags, and order. Optional facts, gallery, relatedPost, previewImage, and previewImageAlt enrich the showcase. The Markdown body contains the project story and notes.
+- [`src/content/keyboards/`](src/content/keyboards/): photos, build specs, and short stories. Frontmatter holds title, image, imageAlt, fullImage, order, and specs. The Markdown body is the build story.
+- Set `draft: true` to hide a project or build. Lower `order` values appear first. The first public map and keyboard supply the homepage entrance previews.
 
-## Adding and editing blog posts
+Project filenames generate their own pages at `/projects/<filename>/`. Keep filenames unique and stable so existing links continue to work. The legacy `/projects/kawayo/` page renders the Kawayo keyboard entry, keeping its story and specs in one place. Add only confirmed contributions and links; avoid inventing tournament names or credits when details are unavailable.
 
-Posts are Markdown files in [`src/content/blog/`](src/content/blog/). Copy an existing sample or create a new `.md` file with this frontmatter:
+The homepage layout is in [`src/pages/index.astro`](src/pages/index.astro); the anime poster opening is in [`HeroPoster.astro`](src/components/HeroPoster.astro). Two prominent entrances lead to osu! work and keyboards on the homepage; a third section holds notes and software. The homepage previews two maps, a compact tournament summary, and up to three keyboards. A public `osuSpotlight.projectId` leads the map selection, followed by collection order. `KeyboardGallery` in `mode="preview"` features Kawayo, then shows smaller build previews; set its `featuredId` prop to select another board. Detailed desk specifications remain in the [current setup post](src/content/blog/current-setup.md). Existing profile links handle contact. There are no audio/video previews or new runtime integrations.
+
+The top navigation opens dedicated pages:
+
+- `/osu/`: all public maps and hitsounding projects, mapping and hitsounding stats, the most played/favourited map spotlight, the osu! profile, and tournament contributions. Update `osuStats` and `osuSpotlight` in `src/data/site.ts`; the spotlight references a public project’s filename.
+- `/keyboards/`: all public builds, expandable stories, specs, and the photo gallery. Write each story in its keyboard entry’s Markdown body; headings, photos, lists, and links work inside the disclosure. Build anchors such as `/keyboards/#neo60-core` link directly to a board. Homepage previews link to these anchors, while their photos still open the gallery.
+- `/blog/`: Notes & code, with the complete list of posts, newest first. “Browse all notes” jumps straight to the list. Software project features remain on the homepage.
+- `/about/`: the bio, profile avatar, interests, and social links. Edit its copy in [`src/pages/about.astro`](src/pages/about.astro).
+
+The collections supply both the homepage and dedicated pages. All public entries appear on their collection pages; the homepage selects up to two maps, three builds, and the three newest posts. Project detail pages link back to their dedicated collection, and navigation highlights the current page or section.
+
+For example, a keyboard entry looks like this:
+
+```md
+---
+title: "My keyboard"
+image: "../../../public/assets/blog/my-keyboard.webp"
+imageAlt: "A descriptive view of the keyboard"
+fullImage: "/assets/blog/my-keyboard.webp"
+order: 3
+specs:
+  Switches: "Switch name"
+  Keycaps: "Keycap set"
+  Stabilizers: "Stabilizer name"
+  Plate: "Plate material"
+  Mount: "Mounting style"
+  Build: "Build notes"
+draft: false
+---
+
+A short story about this build.
+```
+
+All six spec fields are required. Gallery photos open in an accessible native dialog;
+without JavaScript, the same links open the full-size images. Build specs use native
+`details` and stay usable without JavaScript.
+
+Shared document structure, navigation behavior, and theme handling live in [`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro) and [`src/components/`](src/components/). The visual and responsive system lives in [`src/styles/global.css`](src/styles/global.css).
+
+## Blog posts
+
+Posts live in [`src/content/blog/`](src/content/blog/). Create a Markdown file with this frontmatter:
 
 ```md
 ---
@@ -56,78 +95,43 @@ draft: false
 Write the post in Markdown here.
 ```
 
-- Use `draft: true` to keep a post out of the production build.
-- Use `sample: true` only for placeholder/demo writing. It adds a visible sample-content notice.
-- The filename becomes the URL, for example `mapping-notes.md` becomes `/blog/mapping-notes/`.
-- Frontmatter is validated by [`src/content.config.ts`](src/content.config.ts).
+- `draft: true` excludes a post from the homepage, blog index, and generated post routes.
+- `sample: true` keeps a post public and adds a visible sample-content notice.
+- The filename becomes the URL: `mapping-notes.md` becomes `/blog/mapping-notes/`.
+- Listings sort by date, newest first; the homepage shows the three newest public posts.
+- [`src/content.config.ts`](src/content.config.ts) validates the frontmatter.
 
-## Replacing images
+The existing `/blog/` and `/blog/<post-id>/` URLs remain unchanged.
 
-Static images live under [`public/assets/`](public/assets/):
+## Images and links
 
-```text
-public/assets/
-├── profile/        # Profile photo or avatar
-├── projects/       # Project screenshots and card artwork
-├── blog/           # Optional blog images
-└── illustrations/  # Decorative graphics
+Hero artwork lives in [`src/assets/hero/mahiru.png`](src/assets/hero/mahiru.png), referenced by `profile.hero` in `src/data/site.ts`. Project artwork lives in [`src/assets/projects/`](src/assets/projects/) and is referenced with paths relative to each Markdown file, for example `../../assets/projects/kotone-kagome.webp`. Collection image fields and the hero use Astro image optimization with responsive WebP variants. Supply descriptive alt text where images are rendered.
+
+Blog and gallery photos live under [`public/assets/blog/`](public/assets/blog/). A collection `image` field can reference them relatively (`../../../public/assets/blog/neo60-core.webp`) for optimized previews, while `fullImage` uses the public URL (`/assets/blog/neo60-core.webp`). Files in `public/` are also copied without processing, so keep the original files reasonably sized. The favicon is `/assets/favicon.png`.
+
+Update social destinations in `src/data/site.ts` and project destinations in their Markdown frontmatter. Internal links and public asset URLs should start with `/` and page links should end with `/`, matching the deployment configuration. Run a production build and inspect affected pages after changing images, filenames, or links.
+
+## Appearance and accessibility
+
+The design uses an anime poster composition, sky blue and seafoam light surfaces, a midnight-blue dark theme, and self-hosted Outfit typography. Pressing an entrance combines keycap feedback with a single hit-circle ripple and never delays navigation. Color, typography, spacing, and responsive rules are defined in `src/styles/global.css`. The agreed design brief lives in [`REDESIGN.md`](REDESIGN.md).
+
+Light and dark themes follow the visitor's system preference until they choose a theme; that choice persists in `localStorage`. Motion respects `prefers-reduced-motion`. Keep navigation and gallery interactions usable with a keyboard when making changes.
+
+## GitHub Pages deployment
+
+[`deploy.yml`](.github/workflows/deploy.yml) builds and publishes `dist/` on pushes to `main` or manual workflow dispatch. Preview redesign branches locally before merging; pushing a feature branch does not automatically publish it.
+
+[`astro.config.mjs`](astro.config.mjs) uses:
+
+```js
+site: 'https://seapodeerman.top',
+base: '/',
+output: 'static',
+trailingSlash: 'always',
 ```
 
-Current SVGs are original, clearly labeled placeholders—not personal photographs or claimed project screenshots.
+[`public/CNAME`](public/CNAME) contains `seapodeerman.top`. Keep the custom domain, DNS, GitHub Pages settings, and Astro `site` value aligned. In repository **Settings → Pages**, the build source should be **GitHub Actions**.
 
-1. Add an optimized SVG, WebP, AVIF, PNG, or JPG to the appropriate directory.
-2. Update its `/assets/...` path in `src/data/site.ts` or the relevant post/component.
-3. For the profile image, update `profile.portrait` in `src/data/site.ts` and change the image alt text plus/remove the “replace me” label in `src/pages/index.astro`.
-4. Keep files reasonably small. Aim for under 300 KB for most raster images.
+GitHub Pages serves static files. Client-side interactions and build-time content generation work here; features requiring a server, private credentials, persistent user data, or form processing need a separate service. Never place secrets in browser code or public build output.
 
-Missing image paths will show the browser's broken-image state, so run the production build and check new paths before pushing.
-
-## Replacing links and contact details
-
-Edit `socialLinks` in [`src/data/site.ts`](src/data/site.ts). GitHub is the only confirmed external profile. The osu! profile, email, and additional social account intentionally point back to the contact section and display a **Placeholder** label.
-
-For email, use a `mailto:` link, for example:
-
-```ts
-{ label: 'Email', handle: 'hello@example.com', href: 'mailto:hello@example.com', placeholder: false }
-```
-
-Project links work the same way: replace `href: '#contact'` with the real URL and remove `placeholder: true`.
-
-## Theme and design settings
-
-Color tokens are at the top of [`src/styles/global.css`](src/styles/global.css). The light palette is based on:
-
-- `#ead2ac`
-- `#df928e`
-- `#c58882`
-- `#d1dede`
-- `#55868c`
-
-Dark-mode values immediately follow the light tokens. The site starts in the requested light theme, and the theme switch stores a visitor's choice in `localStorage`. Motion automatically reduces when `prefers-reduced-motion` is enabled.
-
-## Deployment
-
-[`deploy.yml`](.github/workflows/deploy.yml) builds and publishes the static `dist/` output whenever `main` is pushed. The Astro configuration uses:
-
-- `site: 'https://seapodeerman.github.io'`
-- `base: '/'`
-- static output
-
-This is correct for the special root repository `SEApodEErman/seapodeerman.github.io`; no repository-name prefix or `CNAME` file is needed.
-
-One-time GitHub setup:
-
-1. Open the repository on GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **GitHub Actions** as the source.
-4. Push to `main`, or run **Deploy to GitHub Pages** manually from the Actions tab.
-
-Before pushing, run:
-
-```sh
-npm ci
-npm run build
-```
-
-After deployment, verify the homepage, a blog post, the theme toggle, and section links at [https://seapodeerman.github.io](https://seapodeerman.github.io).
+Before merging, run `npm run build` with Node.js 24. Preview the homepage, a project detail page, keyboard gallery, blog index and post, mobile navigation, and both themes. After publishing, verify the same routes on [seapodeerman.top](https://seapodeerman.top).

@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfileLinks from '../components/ProfileLinks.astro';
+import { profile } from '../data/site';
+---
+<BaseLayout title="About | SEApodEErman" description="The person behind SEApodEErman and Mahiru Shiina: an IT student, a computer nerd since childhood, and someone who enjoys making things that help others.">
+  <header class="page-hero page-width">
+    <p class="eyebrow">About me</p>
+    <h1>Laid back.<br /><span class="outline-type">Always curious.</span></h1>
+    <p>I’m {profile.name}, an IT student. Most days are pretty ordinary: go to work, get home, spend some time doing something I enjoy, and repeat.</p>
+  </header>
+  <div class="collection-body page-width about-detail">
+    <aside class="about-profile" aria-label="My online identity">
+      <Image class="about-portrait" src={profile.portrait} alt="SEApodEErman’s profile avatar" widths={[240, 480]} sizes="(max-width: 767px) 160px, 240px" loading="eager" />
+      <p class="profile-name">{profile.name}</p>
+      <p class="profile-alias">{profile.alias}</p>
+    </aside>
+    <div class="about-copy">
+      <section class="about-story" aria-labelledby="names-title">
+        <h2 id="names-title">History of my names.</h2>
+        <p><strong>SEApodEErman</strong> goes back to when I played Dota 2 almost every day. I followed EternalEnvy, usually called EE. Add SEA for Southeast Asia and the spooderman meme that was still around back then, and you get SEApodEErman. It stuck.</p>
+        <p>In osu!, I go by <strong>Mahiru Shiina</strong>. I like her gentle personality and innocence. Reading the light novels or watching the anime is always a little dose of sweetness.</p>
+      </section>
+
+      <section class="about-story" aria-labelledby="computers-title">
+        <h2 id="computers-title">My nerd background.</h2>
+        <p>I’ve been into computers since I was little. At school, I joined Arduino classes and represented the school in competitions. That kept feeding my interest until studying IT felt like a natural next step.</p>
+        <p>Coding is a mix of curiosity and problem solving for me. AI helps me turn ideas into prototypes quickly, then build on them through more iterations. There’s something about that process that just clicks with me.</p>
+      </section>
+
+      <div id="hobbies">
+        <section class="about-story" aria-labelledby="osu-title">
+          <h2 id="osu-title">How did I find osu!</h2>
+          <p>I used to play Cytus on mobile. One day, I went looking for a PC version and came across osu!. It was a completely different game from what I expected, but I’ve stuck around since 2019.</p>
+          <p>After a few years of playing, I started wondering how people made such awesome beatmaps. My first attempts were rough, but the community helped me improve, and I kept at it.</p>
+          <p>Hitsounding started because I kept asking other people to do it for me. Eventually, I wanted to find out how hard it actually was. It turned out to be more approachable than I expected, and soon I was hitsounding for other people too. A big thank you to <strong>midorijeon</strong>: his hitsounding guide helped me get to where I am today.</p>
+        </section>
+
+        <section class="about-story" aria-labelledby="keyboards-title">
+          <h2 id="keyboards-title">What made me get into custom keyboards.</h2>
+          <p>Like a lot of people, I picked up a hobby out of pandemic boredom. Tfue’s custom keyboard build caught my attention, and I wondered whether I could get something like that myself.</p>
+          <p>After some research, I bought my first “customizable” keyboard, a Keychron C1. Then came lubing switches, adding foam, and taping the back of the PCB. One mod led to another. Now I’m in way too deep and still looking for another board to scratch the itch.</p>
+        </section>
+      </div>
+
+      <section class="about-story" aria-labelledby="everyday-title">
+        <h2 id="everyday-title">Something a little different.</h2>
+        <p>What keeps me coming back is being able to help others, whether that’s hitsounding a map or making a program that’s useful to a handful of people.</p>
+        <p>I also like doing something slightly different each day. One day I might be coding; the next, riding up to Genting Highlands for the cool breeze. My friends describe me as laid back, and that’s pretty accurate. I just appreciate people who respect boundaries.</p>
+      </section>
+
+      <section class="about-contact" aria-labelledby="contact-title">
+        <h2 id="contact-title">Find me elsewhere</h2>
+        <ProfileLinks />
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .about-detail { display:grid; grid-template-columns:240px minmax(0,1fr); gap:clamp(32px,6vw,80px); align-items:start; }
+  .about-profile { min-width:0; }
+  .about-portrait { width:100%; aspect-ratio:1; object-fit:cover; border-radius:var(--radius); }
+  .profile-name { margin:18px 0 4px; font-weight:600; overflow-wrap:anywhere; }
+  .profile-alias { margin:0; color:var(--muted); font-size:14px; }
+  .about-copy { min-width:0; max-width:68ch; }
+  .about-copy h2 { font-size:clamp(26px,3vw,36px); letter-spacing:var(--tracking-heading); margin-bottom:20px; overflow-wrap:anywhere; }
+  .about-story { margin-bottom:44px; }
+  .about-story p:last-child { margin-bottom:0; }
+  .about-contact { padding-top:28px; border-top:1px solid var(--line); }
+  .about-contact h2 { margin-bottom:12px; }
+  @media(max-width:767px) {
+    .about-detail { grid-template-columns:1fr; gap:36px; }
+    .about-portrait { width:160px; }
+    .about-story { margin-bottom:36px; }
+  }
+</style>

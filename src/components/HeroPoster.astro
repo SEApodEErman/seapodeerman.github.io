@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { profile } from '../data/site';
+const maps = (await getCollection('projects', ({ data }) => !data.draft && data.category !== 'Software')).sort((a, b) => a.data.order - b.data.order);
+const boards = (await getCollection('keyboards', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+const entrances = [
+  { title: 'osu!', subtitle: 'Maps & hitsounds', href: '#projects', icon: 'ph-circles-three', entry: maps[0], kind: 'rhythm' },
+  { title: 'Keyboards', subtitle: 'My little collection', href: '#setup', icon: 'ph-keyboard', entry: boards[0], kind: 'keys' },
+];
+---
+<section class="poster-shell" aria-labelledby="hello-title">
+  <div class="poster-heading">
+    <p class="poster-alias"><span lang="ja">椎名 真昼</span><span>Mahiru Shiina in osu!</span></p>
+    <h1 id="hello-title">SEApod<br /><span class="outline-type">EErman.</span></h1>
+  </div>
+  <div class="poster-art"><Image src={profile.hero} alt="Mahiru Shiina smiling beneath a translucent blue umbrella" widths={[480, 800, 1200, 1600]} sizes="(max-width: 767px) calc(100vw - 24px), (max-width: 1440px) 60vw, 860px" quality={85} loading="eager" fetchpriority="high" /></div>
+  <div class="poster-actions">
+    <p class="poster-intro">Making maps. Finding the right sound.<br />Probably building another keyboard.</p>
+    <nav class="entrances" aria-label="Choose an interest">
+      {entrances.map(({ title, subtitle, href, icon, entry, kind }) => <a class:list={['entrance', kind]} href={href}>
+        <span class="entrance-top"><i class:list={['ph', icon]} aria-hidden="true"></i><span class="entrance-window" aria-hidden="true">
+          {entry && <Image class="entrance-preview" src={entry.data.image} alt="" width={160} height={100} fit="cover" loading="eager" />}
+          <span class="entrance-arrow"><i class="ph ph-arrow-down-right"></i></span>
+        </span></span>
+        <span class="entrance-title">{title}</span><span class="entrance-subtitle">{subtitle}</span><span class="hit-ring" aria-hidden="true"></span>
+      </a>)}
+    </nav>
+  </div>
+  <div class="poster-signature" aria-hidden="true"><span lang="ja">リズムとキーボード</span><span>Rhythm & keyboards</span></div>
+</section>

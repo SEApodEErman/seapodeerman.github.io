@@ -1,0 +1,7 @@
+---
+import { socialLinks } from '../data/site';
+const socialIcons: Record<string, string> = { GitHub: 'ph-github-logo', 'osu! profile': 'ph-circles-three', Email: 'ph-envelope-simple', Twitter: 'ph-x-logo', Discord: 'ph-discord-logo', 'Ko-fi': 'ph-coffee' };
+---
+<nav class="profile-links" id="contact" aria-label="Find me elsewhere">
+  {socialLinks.map(item => <a href={item.href} aria-label={item.label + ': ' + item.handle} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}><i class:list={['ph', socialIcons[item.label] ?? 'ph-link']} aria-hidden="true"></i>{item.label}<i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>)}
+</nav>

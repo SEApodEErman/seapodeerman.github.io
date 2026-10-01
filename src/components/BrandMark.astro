@@ -1,0 +1,7 @@
+---
+import { Image } from 'astro:assets';
+import favicon from '../../public/assets/favicon.png';
+interface Props { loading?: 'eager' | 'lazy'; }
+const { loading = 'eager' } = Astro.props;
+---
+<Image class="brand-mark" src={favicon} alt="" width={42} height={42} widths={[42, 84]} sizes="(max-width: 767px) 36px, 42px" loading={loading} />

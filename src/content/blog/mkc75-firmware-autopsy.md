@@ -178,5 +178,3 @@ Would I do it again? Highly likely, though there's a growing number of vendors t
 But this whole experience gave me one thing: sometimes when you're stuck and the tool in front of you is trying to convince you that your keyboard has "standby power in a closet", you need a fresh pair of eyes. Even if those eyes cost twenty bucks and eat your food budget for a week.
 
 Sometimes the expensive perspective is the one that finds the bootloader wipe you didn't know existed.
-````
-

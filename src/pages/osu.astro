@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { contributions, socialLinks, osuStats, osuSpotlight } from '../data/site';
+const maps = (await getCollection('projects', ({ data }) => !data.draft && data.category !== 'Software'))
+  .sort((a, b) => a.data.order - b.data.order);
+const osuProfile = socialLinks.find(link => link.label === 'osu! profile');
+const spotlight = maps.find(project => project.id === osuSpotlight.projectId);
+---
+<BaseLayout title="osu! | SEApodEErman" description="Beatmaps, hitsounds, and tournament contributions by SEApodEErman, also known as Mahiru Shiina in osu!.">
+  <header class="page-hero page-width">
+    <a class="back-link" href="/"><i class="ph ph-arrow-left" aria-hidden="true"></i> Home</a>
+    <p class="section-label"><span class="section-index rhythm-index" aria-hidden="true"><i class="ph ph-circles-three"></i></span> Mahiru Shiina in osu!</p>
+    <h1>Made for the <span class="outline-type">music.</span></h1>
+    <p>I make maps, experiment with hitsounds, and help with custom mapping and QA. Here are the projects and collaborations I’ve been part of.</p>
+    {osuProfile && <a class="button button-primary" href={osuProfile.href} target="_blank" rel="noopener noreferrer">My osu! profile<i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>}
+  </header>
+  <section class="collection-body page-width" aria-labelledby="maps-title">
+    <section class="osu-overview" aria-labelledby="overview-title">
+      <header class="collection-heading"><h2 id="overview-title">Mapping & hitsounding</h2></header>
+      <dl class="osu-stats">{osuStats.map(stat => <div><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl>
+    </section>
+    {spotlight && <section class="osu-spotlight" aria-labelledby="spotlight-title">
+      <a class="spotlight-image" href={'/projects/' + spotlight.id + '/'} tabindex="-1" aria-hidden="true"><Image src={spotlight.data.image} alt={spotlight.data.imageAlt} widths={[480, 800, 1200].filter(width => width <= spotlight.data.image.width)} sizes="(max-width: 767px) calc(100vw - 40px), 55vw" loading="lazy" /></a>
+      <div class="spotlight-copy">
+        <ul class="spotlight-badges" aria-label="Map highlights">{osuSpotlight.labels.map(label => <li>{label}</li>)}</ul>
+        <h2 id="spotlight-title"><a href={'/projects/' + spotlight.id + '/'}>{spotlight.data.title}</a></h2>
+        <p class="work-role">{spotlight.data.role}</p>
+        <p>{spotlight.data.description}</p>
+        <div class="work-links"><a class="text-link" href={spotlight.data.href} target="_blank" rel="noopener noreferrer">Open beatmap on osu!<i class="ph ph-arrow-up-right" aria-hidden="true"></i></a><a class="work-story-link" href={'/projects/' + spotlight.id + '/'}>Project notes<i class="ph ph-arrow-right" aria-hidden="true"></i></a></div>
+      </div>
+    </section>}
+    <header class="collection-heading"><h2 id="maps-title">Maps & hitsounds</h2><p>Open a project for its story, credits, and beatmap link.</p></header>
+    <div class="work-grid work-grid-poster">{maps.map((project, index) => <WorkCard project={project} index={index} />)}</div>
+    {maps.length === 0 && <p class="empty-state">More maps and hitsounds are on the way.</p>}
+    <section class="contributions" id="contributions" aria-labelledby="contributions-title">
+      <header class="contributions-heading"><h2 id="contributions-title">Also made with others</h2><p>Custom maps and mapping QA for tournaments.</p></header>
+      <ul class="contribution-grid">{contributions.map(item => <li class="contribution-card">
+        <span class="contribution-years">{item.years}</span><h3>{item.name}</h3>
+        <ul class="contribution-roles" aria-label="Contributions">{item.roles.map(role => <li>{role}</li>)}</ul>
+      </li>)}</ul>
+    </section>
+  </section>
+</BaseLayout>
+<style>
+  .osu-overview { margin-bottom:64px; }
+  .osu-stats { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; margin:0; padding-block:24px; border-block:1px solid var(--line); }
+  .osu-stats>div { display:flex; flex-direction:column; padding:8px 24px; border-left:1px solid var(--line); }
+  .osu-stats>div:first-child { padding-left:0; border-left:0; }
+  .osu-stats dt { color:var(--muted); font:12px/1.6 var(--mono); }
+  .osu-stats dd { order:-1; margin:0 0 12px; color:var(--accent); font-size:clamp(36px,4vw,56px); font-weight:800; line-height:1; letter-spacing:var(--tracking-display); }
+  .osu-spotlight { display:grid; grid-template-columns:1.2fr 1fr; align-items:center; margin-bottom:64px; border:1px solid var(--line); background:var(--surface-alt); overflow:hidden; clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%); }
+  .spotlight-image { display:block; height:100%; }
+  .spotlight-image img { width:100%; height:100%; min-height:320px; object-fit:cover; }
+  .spotlight-copy { padding:32px; min-width:0; }
+  .spotlight-copy h2 { margin:20px 0 16px; font-size:clamp(28px,3vw,40px); line-height:1.2; letter-spacing:var(--tracking-heading); }
+  .spotlight-copy h2 a { text-decoration:none; }
+  .spotlight-copy h2 a:hover { color:var(--accent); }
+  .spotlight-copy>p:not(.work-role) { color:var(--muted); font-size:16px; }
+  .spotlight-badges { display:flex; flex-wrap:wrap; gap:8px; padding:0; margin:0; list-style:none; }
+  .spotlight-badges li { padding:6px 10px; border-radius:5px; background:var(--accent-soft); color:var(--accent); font:11px/1.5 var(--mono); }
+  @media(max-width:1023px) { .osu-stats { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px 0; } .osu-stats>div:nth-child(3n+1) { padding-left:0; border-left:0; } }
+  @media(max-width:767px) {
+    .osu-overview { margin-bottom:46px; }
+    .osu-stats { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 0; }
+    .osu-stats>div,.osu-stats>div:nth-child(3n+1) { padding:0 16px; border-left:1px solid var(--line); }
+    .osu-stats>div:nth-child(odd) { padding-left:0; border-left:0; }
+    .osu-spotlight { grid-template-columns:1fr; margin-bottom:46px; }
+    .spotlight-image img { height:auto; min-height:0; aspect-ratio:16/10; }
+    .spotlight-copy { padding:24px; }
+  }
+</style>

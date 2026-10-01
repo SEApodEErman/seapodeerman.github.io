@@ -1,24 +1,20 @@
 import mainAvatar from '../assets/profile/main-avatar.jpg';
-import kotoneKagome from '../assets/projects/kotone-kagome.webp';
-import haibokuCover from '../assets/projects/haiboku-no-altra-vita-cover.webp';
-import kawayoCover from '../assets/projects/kawayo.webp';
-import reqtracLogo from '../assets/projects/reqtrac-logo.webp';
+import heroArtwork from '../assets/hero/mahiru.png';
 
-// Main editing hub. Replace entries marked `placeholder: true` as real details become available.
+// Shared identity and navigation. Projects and builds live in Content Collections.
 export const navigation = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Hobbies', href: '#hobbies' },
-  { label: 'Desk', href: '#setup' },
-  { label: 'Notes', href: '#blog' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'osu!', href: '/osu/' },
+  { label: 'Keyboards', href: '/keyboards/' },
+  { label: 'Notes & code', href: '/blog/' },
+  { label: 'About', href: '/about/' },
 ];
 
 export const profile = {
   name: 'SEApodEErman',
   alias: 'Mahiru Shiina in osu!',
-  intro: 'osu! beatmapper, hitsounder, custom mapping QA for several tournaments, and a custom keyboard enthusiast.',
+  intro: 'Beatmaps, hitsounds, custom keyboards, software, and notes on whatever I’m making next.',
   portrait: mainAvatar,
+  hero: heroArtwork,
 };
 
 export const socialLinks = [
@@ -30,47 +26,24 @@ export const socialLinks = [
   { label: 'Ko-fi', handle: 'Support my work', href: 'https://ko-fi.com/seapodeerman', placeholder: false },
 ];
 
-export const projects = [
-  {
-    title: 'Kotone — Kagome',
-    description: 'A personal favourite of mine, really happy with the end result due to how the song stuck with me.',
-    category: 'Beatmap showcase',
-    image: kotoneKagome,
-    href: 'https://osu.ppy.sh/beatmapsets/2199809#osu/4672887',
-    tags: ['osu!', 'mapping', 'hitsounds'],
-    placeholder: false,
-  },
-  {
-    title: 'takehirotei — Haiboku no Altra Vita',
-    description: 'I went all-out on hitsounds, choosing samples to mirror the song’s multi-genre shifts. I also solo-mapped the Hard and contributed sections to the Easy, Expert, and top difficulty.',
-    category: 'Hitsound showcase',
-    image: haibokuCover,
-    href: 'https://osu.ppy.sh/beatmapsets/2412331#osu/5297696',
-    tags: ['hitsounds', 'audio', 'mapping'],
-    placeholder: false,
-  },
-  {
-    title: 'Kawayo by The Flying Penguin',
-    description: 'A 65% CNC aluminum board I won at MYMK 2025, with a brass Toblerone rear weight. Built with Kailh BCP switches, GMK Jamon clone keycaps, Typeplus stabilizers, and a custom-cut POM plate using PCBSnap mounting.',
-    category: 'Keyboard showcase',
-    image: kawayoCover,
-    tags: ['65%', 'Kailh BCP', 'POM plate'],
-    placeholder: false,
-  },
-  {
-    title: 'osu! ReqTrac',
-    description: 'A side project I\'m currently working on to track and manage osu! mapping related requests. Currently released but in early stages, with more features planned for the future.',
-    category: 'application showcase',
-    image: reqtracLogo,
-    href: 'https://github.com/SEApodEErman/osu-ReqTrac',
-    tags: ['osu!', 'requests', 'tracking'],
-    placeholder: false,
-  },
+export const contributions: { name: string; years: string; roles: string[] }[] = [
+  { name: 'osu! Malaysia Tournament', years: '2023–2025', roles: ['Custom Mapping'] },
+  { name: 'osu! Malaysia Tournament Kecemasan', years: '2026', roles: ['Custom Mapping', 'Custom Mapping QA'] },
+  { name: 'Corsace Closed', years: '2023', roles: ['Custom Mapping'] },
+  { name: 'Malaysian 5 Digit Amateur Cup', years: '2023', roles: ['Custom Mapping'] },
+  { name: 'Mekakucity Showdown', years: '2024', roles: ['Custom Mapping'] },
+  { name: 'Maimai-Chuni Showdown', years: '2026', roles: ['Custom Mapping'] },
 ];
 
-export const hobbies = [
-  { number: '01', title: 'Beatmapping', label: 'Rhythm / structure', description: 'Shaping music into playable patterns with strong emphasis on my ideology: The more you f*ck around, the more you are going to find out.', icon: 'ph-music-notes' },
-  { number: '02', title: 'Hitsounds', label: 'Audio / texture', description: 'Giving a map another layer of expression through carefully placed sounds while enjoying the experimentation with samples.', icon: 'ph-waveform' },
-  { number: '03', title: 'Custom keyboards', label: 'Hardware / feel', description: 'Exploring the tiny decisions that change how a board looks, sounds, and feels. From layout to the final keypress.', icon: 'ph-keyboard' },
-  { number: '04', title: 'Anime & creative things', label: 'Inspiration / mood', description: 'A soft spot for anime-inspired aesthetics and the creative details that make digital spaces feel personal.', icon: 'ph-sparkle' },
+export const osuStats = [
+  { value: '8', label: 'Ranked beatmaps' },
+  { value: '10', label: 'Ranked guest difficulties' },
+  { value: '71', label: 'Total maps' },
+  { value: '150+', label: 'Hitsounded maps' },
+  { value: '60+', label: 'Ranked hitsounds' },
 ];
+
+export const osuSpotlight = {
+  projectId: 'haiboku-no-altra-vita',
+  labels: ['Most played', 'Most favourited'],
+};

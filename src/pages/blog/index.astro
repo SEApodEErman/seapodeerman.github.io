@@ -2,12 +2,48 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogPreview from '../../components/BlogPreview.astro';
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<BaseLayout title="Notes — SEApodEErman" description="Sample notes and future writing from SEApodEErman about osu! mapping, hitsounds, keyboards, and creative interests.">
-  <section class="page-hero page-width">
-    <a class="back-link" href="/#blog">← Home</a><p class="page-kicker">Notes / blog</p><h1>Thoughts between maps.</h1>
-    <p>This is where I share my thoughts and experiences related to osu! mapping, hitsounds, keyboards, and other creative pursuits.</p>
+
+<BaseLayout
+  title="Notes & code | SEApodEErman"
+  description="Build logs, keyboard experiments, and things learned along the way. Notes from SEApodEErman on software, osu!, and the everyday setup."
+>
+  <header class="page-hero page-width notes-hero">
+    <a class="back-link" href="/"> <i class="ph ph-arrow-left" aria-hidden="true"></i> Home</a>
+    <h1>Notes <span class="outline-type">& code.</span></h1>
+    <p>Notes on software, build logs, keyboard experiments, and the occasional very long story about a very small problem.</p>
+    <a class="text-link" href="#all-notes">Browse all notes<i class="ph ph-arrow-down" aria-hidden="true"></i></a>
+  </header>
+
+  <section class="notes-list page-width" id="all-notes" aria-labelledby="all-notes-title">
+    <header class="collection-heading"><h2 id="all-notes-title">All notes</h2></header>
+    <div class="list-label"><span>Latest first</span><span>{posts.length} {posts.length === 1 ? 'note' : 'notes'}</span></div>
+    {posts.length > 0
+      ? posts.map((post) => <BlogPreview post={post} />)
+      : <p class="empty-state">Nothing here yet. More notes are on the way.</p>}
   </section>
-  <section class="blog-page page-width"><div class="post-list">{posts.map((post, index) => <BlogPreview post={post} index={index} />)}</div></section>
 </BaseLayout>
+
+<style>
+  .notes-hero { padding-bottom: 60px; }
+  .notes-hero .back-link { margin-bottom: 30px; }
+  .notes-hero > p { max-width: 48ch; }
+  .notes-list { padding-bottom: 100px; }
+  .list-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+    color: var(--muted);
+    font: 400 12px/1.6 var(--mono);
+  }
+  .empty-state { padding: 36px 0; border-top: 1px solid var(--line); color: var(--muted); }
+
+  @media (max-width: 767px) {
+    .notes-hero { padding-bottom: 40px; }
+    .notes-list { padding-bottom: 64px; }
+  }
+</style>

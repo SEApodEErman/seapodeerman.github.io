@@ -6,118 +6,121 @@ import '@fontsource/atkinson-hyperlegible/400.css';
 import '@fontsource/atkinson-hyperlegible/700.css';
 import '@fontsource/geist-mono/400.css';
 import '@fontsource/geist-mono/500.css';
-import '@fontsource/geist-mono/600.css';
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
+import '@fontsource/outfit/700.css';
+import '@fontsource/outfit/800.css';
+import '@fontsource/outfit/900.css';
 import '@phosphor-icons/web/regular/style.css';
 
-interface Props { title?: string; description?: string; }
-
+interface Props { title?: string; description?: string; image?: string; activeHref?: string; }
 const {
-  title = 'SEApodEErman — osu! mapper & keyboard enthusiast',
-  description = 'The personal site of SEApodEErman, also known as Mahiru Shiina in osu! — beatmapper, hitsounder, mapping QA participant, and custom keyboard enthusiast.',
+  title = 'SEApodEErman | Maps, keyboards, software & notes',
+  description = 'The personal corner of SEApodEErman, also known as Mahiru Shiina. osu! maps and hitsounds, custom keyboards, software projects, and the stories behind them.',
+  image = '/assets/favicon.png',
+  activeHref,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f7f0e4" />
+    <meta name="theme-color" content="#f7fbfd" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SEApodEErman" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary" />
     <title>{title}</title>
     <script is:inline>
       (() => {
-        const saved = localStorage.getItem('theme');
-        document.documentElement.dataset.theme = saved || 'light';
+        let theme;
+        try { theme = localStorage.getItem('theme'); } catch {}
+        const dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.querySelector('meta[name="theme-color"]').content = dark ? '#101e30' : '#f7fbfd';
       })();
     </script>
   </head>
-  <body>
+  <body id="top">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="editor-ruler" aria-hidden="true">
-      <span class="editor-ruler-readout" data-ruler-readout>00:00:000</span>
-      <span class="editor-ruler-playhead" data-ruler-playhead></span>
-    </div>
-    <Header />
+    <Header activeHref={activeHref} />
     <main id="main-content"><slot /></main>
     <Footer />
     <script>
       const root = document.documentElement;
       const themeButton = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
-      const syncThemeLabel = () => {
-        if (!themeButton) return;
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+      let manualTheme = false;
+      try { manualTheme = ['light', 'dark'].includes(localStorage.getItem('theme') ?? ''); } catch {}
+      const syncTheme = () => {
         const dark = root.dataset.theme === 'dark';
-        themeButton.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
-        themeButton.setAttribute('aria-pressed', String(dark));
+        themeButton?.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
+        themeButton?.setAttribute('aria-pressed', String(dark));
+        document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#101e30' : '#f7fbfd');
       };
-      themeButton?.addEventListener('click', () => {
-        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('theme', root.dataset.theme);
-        syncThemeLabel();
+      if (themeButton) {
+        themeButton.hidden = false;
+        themeButton.addEventListener('click', () => {
+          root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          manualTheme = true;
+          try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+          syncTheme();
+        });
+      }
+      systemTheme.addEventListener('change', (event) => {
+        if (manualTheme) return;
+        root.dataset.theme = event.matches ? 'dark' : 'light';
+        syncTheme();
       });
-      syncThemeLabel();
+      syncTheme();
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      document.querySelectorAll<HTMLAnchorElement>('.entrance').forEach(link => {
+        const pulse = () => {
+          if (reducedMotion.matches) return;
+          link.classList.remove('is-pressed');
+          void link.offsetWidth;
+          link.classList.add('is-pressed');
+        };
+        link.addEventListener('pointerdown', pulse);
+        link.addEventListener('keydown', event => { if (event.key === 'Enter') pulse(); });
+        link.addEventListener('animationend', () => link.classList.remove('is-pressed'));
+      });
 
       const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
       const nav = document.querySelector<HTMLElement>('[data-nav]');
-      const closeMenu = () => {
+      const closeMenu = (restoreFocus = false) => {
+        const wasOpen = nav?.hasAttribute('data-open');
         nav?.removeAttribute('data-open');
         menuButton?.setAttribute('aria-expanded', 'false');
+        menuButton?.setAttribute('aria-label', 'Open navigation');
+        if (restoreFocus && wasOpen) menuButton?.focus();
       };
-      menuButton?.addEventListener('click', () => {
-        const open = nav?.toggleAttribute('data-open') ?? false;
-        menuButton.setAttribute('aria-expanded', String(open));
-      });
-      nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const reveals = document.querySelectorAll<HTMLElement>('[data-reveal]');
-      if (reducedMotion || !('IntersectionObserver' in window)) {
-        reveals.forEach((item) => item.dataset.visible = 'true');
-      } else {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              (entry.target as HTMLElement).dataset.visible = 'true';
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12 });
-        reveals.forEach((item) => observer.observe(item));
-      }
-
-      const sections = [...document.querySelectorAll<HTMLElement>('section[id]')];
-      const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav] a')];
-      if ('IntersectionObserver' in window && sections.length) {
-        const sectionObserver = new IntersectionObserver((entries) => {
-          const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-          if (!visible) return;
-          navLinks.forEach((link) => link.toggleAttribute('aria-current', link.hash === `#${visible.target.id}`));
-        }, { rootMargin: '-30% 0px -60%', threshold: [0, 0.2, 0.5] });
-        sections.forEach((section) => sectionObserver.observe(section));
-      }
-
-      // Workshop-A editor ruler: tick strip + playhead follows scroll progress,
-      // readout maps progress to a 3:00.000 timeline (MM:SS:mmm). Passive listener.
-      const ruler = document.querySelector<HTMLElement>('.editor-ruler');
-      const playhead = document.querySelector<HTMLElement>('[data-ruler-playhead]');
-      const readout = document.querySelector<HTMLElement>('[data-ruler-readout]');
-      if (ruler && playhead && readout) {
-        for (let i = 0; i < 60; i++) ruler.appendChild(document.createElement('i'));
-        const updateRuler = () => {
-          const max = Math.max(1, document.body.scrollHeight - window.innerHeight);
-          const progress = Math.min(1, Math.max(0, window.scrollY / max));
-          playhead.style.left = `${progress * 100}%`;
-          const ms = Math.floor(progress * 447067);
-          const minutes = String(Math.floor(ms / 60000)).padStart(2, '0');
-          const seconds = String(Math.floor((ms % 60000) / 1000)).padStart(2, '0');
-          const millis = String(ms % 1000).padStart(3, '0');
-          readout.textContent = `${minutes}:${seconds}:${millis}`;
-        };
-        window.addEventListener('scroll', updateRuler, { passive: true });
-        updateRuler();
+      if (menuButton && nav) {
+        menuButton.hidden = false;
+        nav.dataset.enhanced = 'true';
+        menuButton.addEventListener('click', () => {
+          const open = nav.toggleAttribute('data-open');
+          menuButton.setAttribute('aria-expanded', String(open));
+          menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+          if (open) nav.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+        });
+        nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu(true); });
+        document.addEventListener('click', (event) => {
+          if (event.target instanceof Node && !nav.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+        });
+        window.matchMedia('(min-width: 1024px)').addEventListener('change', () => closeMenu());
       }
     </script>
   </body>

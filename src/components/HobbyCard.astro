@@ -1,8 +1,0 @@
----
-interface Props { hobby: { number: string; title: string; label: string; description: string; icon: string }; index: number; }
-const { hobby, index } = Astro.props;
----
-<article class="hobby-card" data-reveal style={`--delay: ${index * 55}ms`}>
-  <div class="hobby-top"><span>{hobby.number}</span><i class={`ph ${hobby.icon} hobby-symbol`} aria-hidden="true"></i></div>
-  <p class="hobby-label">{hobby.label}</p><h3>{hobby.title}</h3><p>{hobby.description}</p>
-</article>

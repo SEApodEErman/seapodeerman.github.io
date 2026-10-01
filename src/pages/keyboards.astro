@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import KeyboardGallery from '../components/KeyboardGallery.astro';
+---
+<BaseLayout title="Keyboards | SEApodEErman" description="Browse SEApodEErman’s custom keyboard collection, with photos, build stories, switches, keycaps, and specs.">
+  <header class="page-hero page-width">
+    <a class="back-link" href="/"><i class="ph ph-arrow-left" aria-hidden="true"></i> Home</a>
+    <p class="section-label"><span class="section-index keys-index" aria-hidden="true"><i class="ph ph-keyboard"></i></span> The keyboard collection</p>
+    <h1>A few of my<br /><span class="outline-type">favourite keys.</span></h1>
+    <p>Photos, parts, and the little stories behind the boards on my desk. Open a photo for a closer look, or expand a keyboard to read its story and build specs.</p>
+    <a class="text-link" href="/blog/current-setup/">The rest of my desk setup<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+  </header>
+  <section class="collection-body page-width" aria-labelledby="builds-title">
+    <header class="collection-heading"><h2 id="builds-title">My collection</h2></header>
+    <KeyboardGallery expandableStories />
+  </section>
+</BaseLayout>

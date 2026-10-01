@@ -1,16 +1,129 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+
 interface Props {
-  post: { id: string; data: { title: string; excerpt: string; date: Date; tags: string[]; sample: boolean } };
-  index: number;
+  post: CollectionEntry<'blog'>;
+  index?: number;
+  heading?: 'h2' | 'h3';
 }
-const { post, index } = Astro.props;
-const date = post.data.date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+
+const { post, heading: Heading = 'h3' } = Astro.props;
+const date = post.data.date.toLocaleDateString('en', {
+  year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC',
+});
 ---
-<article class="post-preview" data-reveal style={`--delay: ${index * 70}ms`}>
-  <div class="post-date"><span>{String(index + 1).padStart(2, '0')}</span><time datetime={post.data.date.toISOString()}>{date}</time></div>
-  <div>
-    <div class="post-heading-line"><h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>{post.data.sample && <span class="sample-badge">Sample post</span>}</div>
-    <p>{post.data.excerpt}</p><ul class="tag-list" aria-label="Post tags">{post.data.tags.map((tag) => <li>{tag}</li>)}</ul>
+
+<article class="post-preview">
+  <div class="post-meta">
+    <time datetime={post.data.date.toISOString()}>{date}</time>
+    {post.data.sample && <span class="sample-badge">Sample post</span>}
   </div>
-  <a class="read-link" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>Read <span aria-hidden="true">↗</span></a>
+  <div class="post-copy">
+    <Heading class="post-title"><a href={`/blog/${post.id}/`}>{post.data.title}</a></Heading>
+    <p>{post.data.excerpt}</p>
+    <ul class="post-tags" aria-label="Post tags">
+      {post.data.tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  </div>
+  <a class="post-arrow" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>
+    <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+  </a>
 </article>
+
+<style>
+  .post-preview {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr) 48px;
+    gap: 32px;
+    align-items: start;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 6px;
+    color: var(--muted);
+    font: 400 12px/1.7 var(--mono);
+  }
+
+  .sample-badge {
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    font: 400 11px/1.5 var(--mono);
+  }
+
+  .post-title {
+    margin: 0;
+    max-width: 32ch;
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-card);
+    text-wrap: pretty;
+  }
+
+  .post-title a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+
+  .post-title a:hover { color: var(--accent); }
+
+  .post-copy > p {
+    max-width: 68ch;
+    margin: 14px 0 18px;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 16px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: var(--muted);
+    font: 400 11px/1.7 var(--mono);
+  }
+
+  .post-arrow {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--text);
+    font-size: 21px;
+    text-decoration: none;
+    transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+  }
+
+  .post-preview:focus-within .post-arrow,
+  .post-arrow:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  @media (max-width: 767px) {
+    .post-preview { grid-template-columns: minmax(0, 1fr) 44px; gap: 12px 20px; padding: 28px 0; }
+    .post-meta { grid-column: 1 / -1; flex-direction: row; align-items: center; padding: 0; }
+    .post-copy { grid-column: 1; }
+    .post-title { max-width: none; font-size: 1.5rem; }
+    .post-copy > p { margin-top: 12px; }
+    .post-arrow { grid-column: 2; grid-row: 2; width: 44px; height: 44px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-title a, .post-arrow { transition: none; }
+  }
+</style>
