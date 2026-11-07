@@ -1,6 +1,6 @@
 # SEApodEErman personal site
 
-A static personal site for **SEApodEErman**, also known as **Mahiru Shiina in osu!**, with projects, keyboards, tournament contributions, and writing. Built with [Astro](https://astro.build/) and published to [seapodeerman.top](https://seapodeerman.top) through GitHub Pages.
+A static personal site for **SEApodEErman**, also known as **Mahiru Shiina in osu!**, with projects, keyboards, tournament contributions, and writing. Built with [Astro](https://astro.build/) and published to [seapodeerman.github.io](https://seapodeerman.github.io/) through GitHub Pages.
 
 Astro generates every page at build time. The site has no backend, database, accounts, analytics, form handler, or runtime API.
 
@@ -39,7 +39,7 @@ Projects and keyboard builds are Markdown Content Collections, validated by
 
 Project filenames generate their own pages at `/projects/<filename>/`. Keep filenames unique and stable so existing links continue to work. The legacy `/projects/kawayo/` page renders the Kawayo keyboard entry, keeping its story and specs in one place. Add only confirmed contributions and links; avoid inventing tournament names or credits when details are unavailable.
 
-The homepage layout is in [`src/pages/index.astro`](src/pages/index.astro); the anime poster opening is in [`HeroPoster.astro`](src/components/HeroPoster.astro). Two prominent entrances lead to osu! work and keyboards on the homepage; a third section holds notes and software. The homepage previews two maps, a compact tournament summary, and up to three keyboards. A public `osuSpotlight.projectId` leads the map selection, followed by collection order. `KeyboardGallery` in `mode="preview"` features Kawayo, then shows smaller build previews; set its `featuredId` prop to select another board. Detailed desk specifications remain in the [current setup post](src/content/blog/current-setup.md). Existing profile links handle contact. There are no audio/video previews or new runtime integrations.
+The homepage layout is in [`src/pages/index.astro`](src/pages/index.astro); the anime poster opening is in [`HeroPoster.astro`](src/components/HeroPoster.astro), and a top banner marks the move to [seapodeerman.top](https://seapodeerman.top/). Two prominent entrances lead to osu! work and keyboards on the homepage; a third section holds notes and software. The homepage previews two maps, a compact tournament summary, and up to three keyboards. A public `osuSpotlight.projectId` leads the map selection, followed by collection order. `KeyboardGallery` in `mode="preview"` features Kawayo, then shows smaller build previews; set its `featuredId` prop to select another board. Detailed desk specifications remain in the [current setup post](src/content/blog/current-setup.md). Existing profile links handle contact. There are no audio/video previews or new runtime integrations.
 
 The top navigation opens dedicated pages:
 
@@ -124,14 +124,14 @@ Light and dark themes follow the visitor's system preference until they choose a
 [`astro.config.mjs`](astro.config.mjs) uses:
 
 ```js
-site: 'https://seapodeerman.top',
+site: 'https://seapodeerman.github.io',
 base: '/',
 output: 'static',
 trailingSlash: 'always',
 ```
 
-[`public/CNAME`](public/CNAME) contains `seapodeerman.top`. Keep the custom domain, DNS, GitHub Pages settings, and Astro `site` value aligned. In repository **Settings → Pages**, the build source should be **GitHub Actions**.
+Keep the Astro `site` value aligned with `https://seapodeerman.github.io`. In repository **Settings → Pages**, the build source should be **GitHub Actions**, and no custom domain should be configured.
 
 GitHub Pages serves static files. Client-side interactions and build-time content generation work here; features requiring a server, private credentials, persistent user data, or form processing need a separate service. Never place secrets in browser code or public build output.
 
-Before merging, run `npm run build` with Node.js 24. Preview the homepage, a project detail page, keyboard gallery, blog index and post, mobile navigation, and both themes. After publishing, verify the same routes on [seapodeerman.top](https://seapodeerman.top).
+Before merging, run `npm run build` with Node.js 24. Preview the homepage, a project detail page, keyboard gallery, blog index and post, mobile navigation, and both themes. After publishing, verify the same routes on [seapodeerman.github.io](https://seapodeerman.github.io/).

@@ -72,6 +72,10 @@ figure { margin:0; }
 .tag-list { display:flex; flex-wrap:wrap; gap:8px; padding:0; margin:0; list-style:none; }
 .tag-list li { font:11px/1.5 var(--mono); color:var(--muted); padding:5px 10px; border:1px solid var(--line); border-radius:5px; }
 .section-shell { padding-block:80px; }
+.migration-notice { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:6px 10px; padding:13px 20px; background:var(--surface-alt); border-bottom:1px solid var(--line); color:var(--text); font-size:15px; text-decoration:none; text-align:center; }
+.migration-notice strong { font-weight:600; }
+.migration-notice .ph { color:var(--accent); }
+.migration-notice:hover strong,.migration-notice:hover .ph { color:var(--accent); }
 .section-heading { margin-bottom:42px; }
 .section-heading h2,.about-grid h2 { font-size:clamp(36px,5vw,64px); font-weight:800; letter-spacing:var(--tracking-heading); margin-bottom:18px; }
 .section-heading p { max-width:56ch; color:var(--muted); margin-bottom:0; }

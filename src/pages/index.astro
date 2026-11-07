@@ -16,6 +16,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, 
 const socialIcons: Record<string, string> = { GitHub: 'ph-github-logo', 'osu! profile': 'ph-circles-three', Email: 'ph-envelope-simple', Twitter: 'ph-x-logo', Discord: 'ph-discord-logo', 'Ko-fi': 'ph-coffee' };
 ---
 <BaseLayout>
+  <a class="migration-notice" href="https://seapodeerman.top/"><strong>This site has moved.</strong> The new home is seapodeerman.top<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
   <HeroPoster />
   <section class="section-shell work-section" id="projects" aria-labelledby="work-title">
     <div class="page-width">
